@@ -1,20 +1,24 @@
 # /usr/bin/python
 #-*- coding: utf-8 -*-
 
+# Imports
+import sys
+
 # Variables
 usr = ''
-helplist = '''--- Commands ---
+helplist = '''-------------------- Commands --------------------
 !create - Creates a new robot
 !list - Displays a list of created robots
 !show - Shows information about a specific robot
 !delete - Deletes an existing robot
-!about - Displays information about the program'''
+!about - Displays information about the program
+!exit - Exits the program'''
 robots = []
 rid = 1
 aboutmsg = '''
 ===============================
 File name: robot_creator
-Version: 3.0
+Version: 3.1
 Author: Blackman White                     
 Date created: 9/30/2018              
 Date last modified: 10/1/2018        
@@ -62,6 +66,8 @@ def menu():
     elif usr == "!about":
         print(aboutmsg)
         menu()
+    elif usr == "!exit":
+        sys.exit(0)
     else:
         print("Invalid command")
         print("Type !help to see commands\n")
@@ -72,15 +78,17 @@ def usr_i():
     usr = input('\n> ')
 
 def create_r():
-    global usr
+    global robots
     print("\n===== Robot Creator =====")
     a = input("Name: ")
+    a = a.title()
     
     for robot in robots:
-        if a == robot.name:
-            print("A robot with that name already exists, delete the existing robot or pick another name")
-        else:
+        if a.lower() == robot.name.lower():
+            print("\nA robot with that name already exists, delete the existing robot or pick another name\n")
             return None
+        else:
+            pass
         
     b = input("Color: ")
     r = Robot(a,b)
@@ -106,7 +114,7 @@ def show_r():
     robot_found = False
         
     for robot in robots:
-        if usr == robot.name:
+        if usr.lower() == robot.name.lower():
             robot_found = True
             robot.info()
             return None
@@ -123,7 +131,7 @@ def delete_r():
     robot_found = False
         
     for robot in robots:
-        if usr == robot.name:
+        if usr.lower() == robot.name.lower():
             robot_found = True
             robots.remove(robot)
             del robot
@@ -136,5 +144,3 @@ def delete_r():
 print("========== Menu ==========")
 print("Type !help to see commands")
 menu()
-
-
